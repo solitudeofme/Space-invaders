@@ -66,6 +66,7 @@ const update = () => {
       alien.x += alienVelocityX;
       if (alien.x + alien.width >= board.width || alien.x <= 0) {
         alienVelocityX *= -1;
+        alien.x += alienVelocityX * 2;
         for (let j = 0; j < alienArray.length; j++) {
           alienArray[j].y += alien.height;
         }
