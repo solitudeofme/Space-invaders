@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Press Start 2P", "Courier New", monospace;
+}
+body {
+  text-align: center;
+  background-color: black;
+}
+h1 {
+  margin-top: 3em;
+  color: white;
+}
+#board {
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
