@@ -35,6 +35,10 @@ let alienCols = 3;
 let alienCounts = 0;
 let alienVelocityX = 1;
 
+//========= bullets ======
+let bulletsArray = [];
+let bulletsVelocityY = -10;
+
 window.addEventListener("load", () => {
   board = document.getElementById("board");
   board.width = boardWidth;
@@ -53,6 +57,7 @@ window.addEventListener("load", () => {
   createAliens();
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveShip);
+  document.addEventListener("keyup", shoot);
 });
 
 const update = () => {
@@ -73,6 +78,18 @@ const update = () => {
       }
       context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
     }
+  }
+  for (let i = 0; i < bulletsArray.length; i++) {
+    let bullet = bulletsArray[i];
+    bullet.y += bulletsVelocityY;
+    context.fillStyle = "white";
+    context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+  }
+  while (
+    (bulletsArray.length > 0 && bulletsArray[0].used) ||
+    bulletsArray[0].y < 0
+  ) {
+    bulletsArray.shift();
   }
 };
 
@@ -102,4 +119,17 @@ const createAliens = () => {
     }
   }
   alienCounts = alienArray.length;
+};
+
+const shoot = (e) => {
+  if (e.code === "Space") {
+    let bullet = {
+      x: ship.x + (ship.width * 15) / 32,
+      y: ship.y,
+      width: tileSize / 8,
+      height: tileSize / 2,
+      used: false,
+    };
+    bulletsArray.push(bullet);
+  }
 };
