@@ -33,6 +33,7 @@ let alienImg;
 let alienRows = 2;
 let alienCols = 3;
 let alienCounts = 0;
+let alienVelocityX = 1;
 
 window.addEventListener("load", () => {
   board = document.getElementById("board");
@@ -40,20 +41,35 @@ window.addEventListener("load", () => {
   board.height = boardHeight;
   board.style.border = "7px solid white";
   context = board.getContext("2d");
+
   shipImg = new Image();
   shipImg.src = "./images/ship.png";
   shipImg.addEventListener("load", () => {
     context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
   });
+
   alienImg = new Image();
   alienImg.src = "./images/alien.png";
+  createAliens();
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveShip);
 });
+
 const update = () => {
   requestAnimationFrame(update);
   context.clearRect(0, 0, board.width, board.height);
   context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
+
+  for (let i = 0; i < alienArray.length; i++) {
+    let alien = alienArray[i];
+    if (alien.alive) {
+      alien.x += alienVelocityX;
+      if (alien.x + alien.width >= board.width || alien.x <= 0) {
+        alienVelocityX *= -1;
+      }
+      context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
+    }
+  }
 };
 
 const moveShip = (e) => {
@@ -76,7 +92,10 @@ const createAliens = () => {
         y: alienY + r * alienHeight,
         width: alienWidth,
         height: alienHeight,
+        alive: true,
       };
+      alienArray.push(alien);
     }
   }
+  alienCounts = alienArray.length;
 };
