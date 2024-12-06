@@ -85,6 +85,7 @@ const update = () => {
       context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
       if (alien.y >= ship.y) {
         gameOver = true;
+        document.querySelector("body").style.backgroundColor = "red";
         if (score > highScore) {
           highScore = score;
         }
@@ -196,4 +197,5 @@ againBtn.addEventListener("click", () => {
   alienCounts = 0;
   alienVelocityX = 1;
   ship.x = shipX;
+  document.querySelector("body").style.backgroundColor = "black";
 });
