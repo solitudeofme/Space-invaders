@@ -39,6 +39,7 @@ let alienVelocityX = 1;
 let bulletsArray = [];
 let bulletsVelocityY = -10;
 let score = 0;
+let highScore = 0;
 let gameOver = false;
 
 window.addEventListener("load", () => {
@@ -84,6 +85,9 @@ const update = () => {
       context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
       if (alien.y >= ship.y) {
         gameOver = true;
+        if (score > highScore) {
+          highScore = score;
+        }
       }
     }
   }
@@ -121,6 +125,8 @@ const update = () => {
   context.fillStyle = "white";
   context.font = "20px courier";
   context.fillText(score, 5, 20);
+  context.fillText("HIGH SCORE:", board.width - 190, 20);
+  context.fillText(highScore, board.width - 60, 20);
 };
 
 const moveShip = (e) => {
