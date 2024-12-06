@@ -195,4 +195,5 @@ againBtn.addEventListener("click", () => {
   alienCols = 2;
   alienCounts = 0;
   alienVelocityX = 1;
+  ship.x = shipX;
 });
