@@ -125,8 +125,8 @@ const update = () => {
   context.fillStyle = "white";
   context.font = "20px courier";
   context.fillText(score, 5, 20);
-  context.fillText("HIGH SCORE:", board.width - 190, 20);
-  context.fillText(highScore, board.width - 60, 20);
+  context.fillText("HIGH SCORE:", board.width - 200, 20);
+  context.fillText(highScore, board.width - 70, 20);
 };
 
 const moveShip = (e) => {
