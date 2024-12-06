@@ -7,14 +7,28 @@ body {
   text-align: center;
   background-color: black;
 }
-h1 {
-  margin-top: 3em;
-  color: white;
-}
-#board {
-  background-color: black;
+#container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  margin-bottom: 1em;
+  color: white;
+}
+#board {
+  background-color: black;
+}
+#again {
+  margin-top: 2em;
+  padding: 0.5em 1em;
+  font-size: 1.1rem;
+  border: none;
+}
+#again:active {
+  transform: translateY(7px);
 }

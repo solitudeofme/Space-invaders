@@ -178,3 +178,15 @@ const detectCollision = (a, b) => {
     a.y + a.height > b.y
   );
 };
+
+const againBtn = document.getElementById("again");
+againBtn.addEventListener("click", () => {
+  score = 0;
+  gameOver = false;
+  bulletsArray = [];
+  alienArray = [];
+  alienRows = 1;
+  alienCols = 2;
+  alienCounts = 0;
+  alienVelocityX = 1;
+});
