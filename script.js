@@ -38,6 +38,8 @@ let alienVelocityX = 1;
 //========= bullets ======
 let bulletsArray = [];
 let bulletsVelocityY = -10;
+let score = 0;
+let gameOver = false;
 
 window.addEventListener("load", () => {
   board = document.getElementById("board");
@@ -62,6 +64,9 @@ window.addEventListener("load", () => {
 
 const update = () => {
   requestAnimationFrame(update);
+  if (gameOver) {
+    return;
+  }
   context.clearRect(0, 0, board.width, board.height);
   context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
 
@@ -77,23 +82,51 @@ const update = () => {
         }
       }
       context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
+      if (alien.y >= ship.y) {
+        gameOver = true;
+      }
     }
   }
+
   for (let i = 0; i < bulletsArray.length; i++) {
     let bullet = bulletsArray[i];
     bullet.y += bulletsVelocityY;
     context.fillStyle = "white";
     context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+    for (let j = 0; j < alienArray.length; j++) {
+      let alien = alienArray[j];
+      if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
+        bullet.used = true;
+        alien.alive = false;
+        alienCounts--;
+        score += 100;
+      }
+    }
   }
   while (
-    (bulletsArray.length > 0 && bulletsArray[0].used) ||
-    bulletsArray[0].y < 0
+    bulletsArray.length > 0 &&
+    (bulletsArray[0].used || bulletsArray[0].y < 0)
   ) {
     bulletsArray.shift();
   }
+  if (alienCounts === 0) {
+    alienCols = Math.min(alienCols + 1, cols / 2 - 2);
+    alienRows = Math.min(alienRows + 1, rows - 4);
+    alienVelocityX += 0.2;
+    alienArray = [];
+    bulletsArray = [];
+    createAliens();
+  }
+  context.fillStyle("white");
+  context.font = "16px courier";
+  context.fillRect(score, 5, 20);
 };
 
 const moveShip = (e) => {
+  if (gameOver) {
+    return;
+  }
   if (e.code === "ArrowLeft" && ship.x - shipVelocityX >= 0) {
     ship.x -= shipVelocityX;
   } else if (
@@ -122,6 +155,9 @@ const createAliens = () => {
 };
 
 const shoot = (e) => {
+  if (gameOver) {
+    return;
+  }
   if (e.code === "Space") {
     let bullet = {
       x: ship.x + (ship.width * 15) / 32,
@@ -132,4 +168,13 @@ const shoot = (e) => {
     };
     bulletsArray.push(bullet);
   }
+};
+
+const detectCollision = (a, b) => {
+  return (
+    a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y
+  );
 };
