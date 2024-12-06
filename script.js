@@ -118,9 +118,9 @@ const update = () => {
     bulletsArray = [];
     createAliens();
   }
-  context.fillStyle("white");
-  context.font = "16px courier";
-  context.fillRect(score, 5, 20);
+  context.fillStyle = "white";
+  context.font = "20px courier";
+  context.fillText(score, 5, 20);
 };
 
 const moveShip = (e) => {
